@@ -24,9 +24,16 @@ coding: dict = dict()   # key  -> a letter
 ## defining our data structures
 class Node: # NOT given to students
     # TODO
+    letter: str
+    count: int
+    left: any
+    right: any
     
-    def __init__(self):
-        return
+    def __init__(self, letter: str, count: int, left: any, right: any):
+        self.letter = letter
+        self.count = count
+        self.left = left
+        self.right = right
 
 ## defining operations
 ### recursively traverses the huffman tree to record the codes
@@ -39,13 +46,27 @@ def retrieve_codes(v: Node, path: str=''):
         retrieve_codes(None, None) # TODO
 
 # STEP 1
-## counting the frequencies - TODO
+## counting the frequencies - 
+def count_freq(message):
+    for letter in message:
+        if letter not in freq:
+            freq[letter] = 1
+        else:
+            freq[letter] += 1
+
+count_freq(message)
 
 
 # STEP 2
-## initialize the nodes - TODO
-nodes = list()
-nodes.append(Node(0, 'a'))
+## initialize the nodes - 
+def init_nodes():
+    nodes = list()
+    #nodes.append(Node(0, 'a'))
+    for letter, count in freq.items():
+        nodes.append(Node(count, letter))
+
+init_nodes()
+
 
 # STEP 3 - TODO
 ## combine each nodes until there's only one item in the nodes list
@@ -60,7 +81,9 @@ while len(nodes) > 1:
     min_b: Node = nodes.pop()
 
     ## combine the two
-    combined: Node = None # TODO
+    #combined: Node = None # TODO
+    new_freq = min_a.count + min_b.count
+    combined: Node = Node(min_a.letter, new_freq, min_a, min_b)
 
     ## put the combined nodes back in the list of nodes
     nodes.append(combined)
@@ -70,6 +93,7 @@ while len(nodes) > 1:
 huff_root = nodes[0]
 retrieve_codes(huff_root)
 result: str = str() # TODO (hint coding[letter] -> code)
+# coding[v.letter]
 
 # STEP 5
 ## analyize compression performance
